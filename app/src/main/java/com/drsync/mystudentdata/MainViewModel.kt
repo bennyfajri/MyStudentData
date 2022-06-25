@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.drsync.mystudentdata.database.Entity.Student
+import com.drsync.mystudentdata.database.entity.Student
+import com.drsync.mystudentdata.database.entity.StudentAndUniversity
+import com.drsync.mystudentdata.database.entity.StudentWithCourse
+import com.drsync.mystudentdata.database.entity.UniversityAndStudent
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val studentRepository: StudentRepository) : ViewModel() {
@@ -14,6 +17,9 @@ class MainViewModel(private val studentRepository: StudentRepository) : ViewMode
     }
 
     fun getAllStudent(): LiveData<List<Student>> = studentRepository.getAllStudent()
+    fun getAllStudentAndUniversity() : LiveData<List<StudentAndUniversity>> = studentRepository.getAllStudentAndUniversity()
+    fun getAllUniversityAndStudent(): LiveData<List<UniversityAndStudent>> = studentRepository.getAllUniversityAndStudent()
+    fun getAllStudentWithCourse(): LiveData<List<StudentWithCourse>> = studentRepository.getAllStudentWithCourse()
 
     private fun insertAllData() = viewModelScope.launch {
         studentRepository.insertAllData()

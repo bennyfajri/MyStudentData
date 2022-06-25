@@ -1,8 +1,9 @@
 package com.drsync.mystudentdata.helper
 
-import com.drsync.mystudentdata.database.Entity.Course
-import com.drsync.mystudentdata.database.Entity.Student
-import com.drsync.mystudentdata.database.Entity.University
+import com.drsync.mystudentdata.database.entity.Course
+import com.drsync.mystudentdata.database.entity.CourseStudentCrossRef
+import com.drsync.mystudentdata.database.entity.Student
+import com.drsync.mystudentdata.database.entity.University
 
 object InitialDataSource {
     fun getUniversities(): List<University> {
@@ -32,6 +33,21 @@ object InitialDataSource {
             Course(3, "Javascript Basic"),
             Course(4, "Python Basic"),
             Course(5, "Dart Basic"),
+        )
+    }
+
+    fun getCourseStudentRelation(): List<CourseStudentCrossRef> {
+        return listOf(
+            CourseStudentCrossRef(1, 1),
+            CourseStudentCrossRef(1, 2),
+            CourseStudentCrossRef(2, 2),
+            CourseStudentCrossRef(2, 5),
+            CourseStudentCrossRef(3, 3),
+            CourseStudentCrossRef(4, 3),
+            CourseStudentCrossRef(4, 4),
+            CourseStudentCrossRef(5, 4),
+            CourseStudentCrossRef(6, 3),
+            CourseStudentCrossRef(6, 4),
         )
     }
 }

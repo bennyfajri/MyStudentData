@@ -1,4 +1,4 @@
-package com.drsync.mystudentdata.database.Entity
+package com.drsync.mystudentdata.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

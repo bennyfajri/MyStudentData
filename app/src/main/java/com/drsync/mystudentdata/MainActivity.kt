@@ -2,11 +2,15 @@ package com.drsync.mystudentdata
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.drsync.mystudentdata.adapter.StudentAndUniversityAdapter
 import com.drsync.mystudentdata.adapter.StudentListAdapter
+import com.drsync.mystudentdata.adapter.StudentWithCourseAdapter
+import com.drsync.mystudentdata.adapter.UniversityAndStudentAdapter
 import com.drsync.mystudentdata.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -64,15 +68,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getStudentAndUniversity() {
-
+        val adapter = StudentAndUniversityAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllStudentAndUniversity().observe(this){
+            adapter.submitList(it)
+            Log.d(TAG, "getStudentAndUniversity: $it")
+        }
     }
 
     private fun getUniversityAndStudent() {
-
+        val adapter = UniversityAndStudentAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllUniversityAndStudent().observe(this){
+            Log.d(TAG, "getUniversityAndStudent: $it")
+            adapter.submitList(it)
+        }
     }
 
 
     private fun getStudentWithCourse() {
+        val adapter = StudentWithCourseAdapter()
+        binding.rvStudent.adapter = adapter
+        mainViewModel.getAllStudentWithCourse().observe(this) {
+            Log.d(TAG, "getStudentWithCourse: $it")
+            adapter.submitList(it)
+        }
+    }
 
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }

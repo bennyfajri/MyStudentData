@@ -1,13 +1,8 @@
 package com.drsync.mystudentdata.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.drsync.mystudentdata.database.Entity.Course
-import com.drsync.mystudentdata.database.Entity.Student
-import com.drsync.mystudentdata.database.Entity.University
+import androidx.room.*
+import com.drsync.mystudentdata.database.entity.*
 
 @Dao
 interface StudentDao {
@@ -22,4 +17,19 @@ interface StudentDao {
 
     @Query("SELECT * from student")
     fun getAllStudent(): LiveData<List<Student>>
+
+    @Transaction
+    @Query("SELECT * from student")
+    fun getAllStudentAndUniversity(): LiveData<List<StudentAndUniversity>>
+
+    @Transaction
+    @Query("SELECT * from university")
+    fun getAllUniversityAndStudent(): LiveData<List<UniversityAndStudent>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertCourseStudentCrossRef(courseStudentCrossRef: List<CourseStudentCrossRef>)
+
+    @Transaction
+    @Query("SELECT * from student")
+    fun getAllStudentWithCourse(): LiveData<List<StudentWithCourse>>
 }

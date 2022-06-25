@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.drsync.mystudentdata.database.Entity.Course
-import com.drsync.mystudentdata.database.Entity.Student
-import com.drsync.mystudentdata.database.Entity.University
+import com.drsync.mystudentdata.database.entity.Course
+import com.drsync.mystudentdata.database.entity.CourseStudentCrossRef
+import com.drsync.mystudentdata.database.entity.Student
+import com.drsync.mystudentdata.database.entity.University
 
-@Database(entities = [Student::class, University::class, Course::class], version = 1, exportSchema = false)
+@Database(entities = [Student::class, University::class, Course::class, CourseStudentCrossRef::class], version = 1, exportSchema = false)
 abstract class StudentDatabase : RoomDatabase(){
 
     abstract fun studentDao(): StudentDao
