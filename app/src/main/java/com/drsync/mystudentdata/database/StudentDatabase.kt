@@ -1,9 +1,8 @@
 package com.drsync.mystudentdata.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.drsync.mystudentdata.database.entity.Course
 import com.drsync.mystudentdata.database.entity.CourseStudentCrossRef
@@ -13,8 +12,15 @@ import com.drsync.mystudentdata.helper.InitialDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Student::class, University::class, Course::class, CourseStudentCrossRef::class], version = 1, exportSchema = false)
-abstract class StudentDatabase : RoomDatabase(){
+@Database(
+    entities = [Student::class, University::class, Course::class, CourseStudentCrossRef::class],
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = StudentDatabase.MyAutoMigration::class)
+                     ],
+    exportSchema = true
+)
+abstract class StudentDatabase : RoomDatabase() {
 
     abstract fun studentDao(): StudentDao
 
@@ -26,8 +32,10 @@ abstract class StudentDatabase : RoomDatabase(){
         fun getDatabase(context: Context, applicationScope: CoroutineScope): StudentDatabase {
             if (INSTANCE == null) {
                 synchronized(StudentDatabase::class.java) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        StudentDatabase::class.java, "student_database")
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        StudentDatabase::class.java, "student_database"
+                    )
                         .fallbackToDestructiveMigration()
                         .createFromAsset("student_database.db")
 //                        .addCallback(object :Callback(){
@@ -50,4 +58,7 @@ abstract class StudentDatabase : RoomDatabase(){
         }
 
     }
+
+    @RenameColumn(tableName = "University", fromColumnName = "name", toColumnName = "universityName")
+    class MyAutoMigration : AutoMigrationSpec
 }
