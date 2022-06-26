@@ -2,6 +2,7 @@ package com.drsync.mystudentdata.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.drsync.mystudentdata.database.entity.*
 
 @Dao
@@ -15,8 +16,8 @@ interface StudentDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCourse(course: List<Course>)
 
-    @Query("SELECT * from student")
-    fun getAllStudent(): LiveData<List<Student>>
+    @RawQuery(observedEntities = [Student::class])
+    fun getAllStudent(query: SupportSQLiteQuery): LiveData<List<Student>>
 
     @Transaction
     @Query("SELECT * from student")
