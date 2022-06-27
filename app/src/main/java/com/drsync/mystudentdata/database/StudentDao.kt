@@ -1,6 +1,7 @@
 package com.drsync.mystudentdata.database
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.drsync.mystudentdata.database.entity.*
@@ -17,7 +18,7 @@ interface StudentDao {
     suspend fun insertCourse(course: List<Course>)
 
     @RawQuery(observedEntities = [Student::class])
-    fun getAllStudent(query: SupportSQLiteQuery): LiveData<List<Student>>
+    fun getAllStudent(query: SupportSQLiteQuery): DataSource.Factory<Int, Student>
 
     @Transaction
     @Query("SELECT * from student")

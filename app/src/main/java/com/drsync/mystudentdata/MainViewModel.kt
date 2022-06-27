@@ -1,6 +1,7 @@
 package com.drsync.mystudentdata
 
 import androidx.lifecycle.*
+import androidx.paging.PagedList
 import com.drsync.mystudentdata.database.entity.Student
 import com.drsync.mystudentdata.database.entity.StudentAndUniversity
 import com.drsync.mystudentdata.database.entity.StudentWithCourse
@@ -24,7 +25,7 @@ class MainViewModel(private val studentRepository: StudentRepository) : ViewMode
         _sort.value = sortType
     }
 
-    fun getAllStudent(): LiveData<List<Student>> = _sort.switchMap {
+    fun getAllStudent(): LiveData<PagedList<Student>> = _sort.switchMap {
         studentRepository.getAllStudent(it)
     }
 
